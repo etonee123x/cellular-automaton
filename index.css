@@ -1,0 +1,17 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+#canvas {
+  border: 1px black solid;
+}
+
+.content {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.rules > .rules__types {
+  display: flex;
+  justify-content: space-between;
+}
