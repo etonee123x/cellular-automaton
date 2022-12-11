@@ -94,6 +94,7 @@
         <div class="controls__row">
           <button id="button-start-stop">Start</button>
           <button id="button-reset">Reset</button>
+          <button id="button-single-cell">Single Cell</button>
         </div>
       </div>
       <canvas
@@ -114,6 +115,7 @@
           BUTTON_START_STOP: '#button-start-stop',
           BUTTON_RESET: '#button-reset',
           BUTTON_COPY_PRESET: '#button-copy-preset',
+          BUTTON_SINGLE_CELL: '#button-single-cell',
           CANVAS: '#canvas',
         };
         const START_STOP_VARIANTS = {
@@ -210,6 +212,7 @@
 
         const buttonReset = document.querySelector(SELECTORS.BUTTON_RESET);
         const buttonCopyPreset = document.querySelector(SELECTORS.BUTTON_COPY_PRESET);
+        const buttonSingleCell = document.querySelector(SELECTORS.BUTTON_SINGLE_CELL);
 
         const getNewState = currentState => {
           const newState = [];
@@ -323,7 +326,15 @@
           hrefURL.searchParams.set('rule', window.rule);
           hrefURL.searchParams.set('cellSize', window.cellSize);
           hrefURL.searchParams.set('speed', window.speed);
-          await navigator.clipboard.writeText(hrefURL.toString());
+          await navigator.clipboard?.writeText(hrefURL.toString());
+        };
+
+        const onButtonSingleCellClick = () => {
+          canvasHandler.reset();
+          currentState = Array(640 / window.cellSize)
+            .fill()
+            .map((item, idx, arr) => Number(idx === Math.floor(arr.length / 2) - 1));
+          canvasHandler.fill(currentState);
         };
 
         inputDec.addEventListener('input', onInputDecInput);
@@ -335,6 +346,7 @@
         buttonStartStop.addEventListener('click', onbuttonStartStopClick);
         buttonReset.addEventListener('click', onButtonResetClick);
         buttonCopyPreset.addEventListener('click', onButtonCopyPresetClick);
+        buttonSingleCell.addEventListener('click', onButtonSingleCellClick);
 
         const validateParams = hrefURL => {
           const removeParamsAndRedirect = () => {
